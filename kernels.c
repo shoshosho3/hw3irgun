@@ -66,6 +66,7 @@ void rotate7(int dim, pixel *src, pixel *dst) {
 }
 
 char rotate_7_no_RIDX_descr[] = "rotate_7_no_RIDX";
+
 void rotate_7_no_RIDX(int dim, pixel *src, pixel *dst) {
     int i, j;
 
@@ -87,7 +88,181 @@ void rotate_7_no_RIDX(int dim, pixel *src, pixel *dst) {
     }
 }
 
-/* 
+
+char rotate_7_no_RIDX_descr_no_array[] = "rotate_7_no_RIDX_no_array";
+
+void rotate_7_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
+    register int i, j;
+
+    register int dim_reg = dim;
+    register int optimal_dim = dim_reg - dim_reg % 7;
+
+    for (i = 0; i < dim_reg; i++) {
+        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
+        pixel *j_src_place = src + i * dim_reg;
+        for (j = 0; j < optimal_dim; j += 7) {
+            pixel *dst_place = j_dst_place - j * dim_reg;
+            pixel *src_place = j_src_place + j;
+            *(dst_place - dim_reg) = *(src_place);
+            *(dst_place - 2 * dim_reg) = *(src_place + 1);
+            *(dst_place - 3 * dim_reg) = *(src_place + 2);
+            *(dst_place - 4 * dim_reg) = *(src_place + 3);
+            *(dst_place - 5 * dim_reg) = *(src_place + 4);
+            *(dst_place - 6 * dim_reg) = *(src_place + 5);
+            *(dst_place - 7 * dim_reg) = *(src_place + 6);
+        }
+        for (j = optimal_dim; j < dim_reg; j++) {
+            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
+        }
+    }
+}
+
+char rotate_6_no_RIDX_descr_no_array[] = "rotate_6_no_RIDX_no_array";
+
+void rotate_6_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
+    register int i, j;
+
+    register int dim_reg = dim;
+    register int optimal_dim = dim_reg - dim_reg % 6;
+
+    for (i = 0; i < dim_reg; i++) {
+        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
+        pixel *j_src_place = src + i * dim_reg;
+        for (j = 0; j < optimal_dim; j += 6) {
+            pixel *dst_place = j_dst_place - j * dim_reg;
+            pixel *src_place = j_src_place + j;
+            *(dst_place - dim_reg) = *(src_place);
+            *(dst_place - 2 * dim_reg) = *(src_place + 1);
+            *(dst_place - 3 * dim_reg) = *(src_place + 2);
+            *(dst_place - 4 * dim_reg) = *(src_place + 3);
+            *(dst_place - 5 * dim_reg) = *(src_place + 4);
+            *(dst_place - 6 * dim_reg) = *(src_place + 5);
+        }
+        for (j = optimal_dim; j < dim_reg; j++) {
+            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
+        }
+    }
+}
+
+char rotate_5_no_RIDX_descr_no_array[] = "rotate_5_no_RIDX_no_array";
+
+void rotate_5_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
+    register int i, j;
+
+    register int dim_reg = dim;
+    register int optimal_dim = dim_reg - dim_reg % 5;
+
+    for (i = 0; i < dim_reg; i++) {
+        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
+        pixel *j_src_place = src + i * dim_reg;
+        for (j = 0; j < optimal_dim; j += 5) {
+            pixel *dst_place = j_dst_place - j * dim_reg;
+            pixel *src_place = j_src_place + j;
+            *(dst_place - dim_reg) = *(src_place);
+            *(dst_place - 2 * dim_reg) = *(src_place + 1);
+            *(dst_place - 3 * dim_reg) = *(src_place + 2);
+            *(dst_place - 4 * dim_reg) = *(src_place + 3);
+            *(dst_place - 5 * dim_reg) = *(src_place + 4);
+        }
+        for (j = optimal_dim; j < dim_reg; j++) {
+            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
+        }
+    }
+}
+
+char rotate_4_no_RIDX_descr_no_array[] = "rotate_4_no_RIDX_no_array";
+
+void rotate_4_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
+    register int i, j;
+
+    register int dim_reg = dim;
+    register int optimal_dim = dim_reg - dim_reg % 4;
+
+    for (i = 0; i < dim_reg; i++) {
+        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
+        pixel *j_src_place = src + i * dim_reg;
+        for (j = 0; j < optimal_dim; j += 4) {
+            pixel *dst_place = j_dst_place - j * dim_reg;
+            pixel *src_place = j_src_place + j;
+            *(dst_place - dim_reg) = *(src_place);
+            *(dst_place - 2 * dim_reg) = *(src_place + 1);
+            *(dst_place - 3 * dim_reg) = *(src_place + 2);
+            *(dst_place - 4 * dim_reg) = *(src_place + 3);
+        }
+        for (j = optimal_dim; j < dim_reg; j++) {
+            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
+        }
+    }
+}
+
+char rotate_3_no_RIDX_descr_no_array[] = "rotate_3_no_RIDX_no_array";
+
+void rotate_3_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
+    register int i, j;
+
+    register int dim_reg = dim;
+    register int optimal_dim = dim_reg - dim_reg % 3;
+
+    for (i = 0; i < dim_reg; i++) {
+        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
+        pixel *j_src_place = src + i * dim_reg;
+        for (j = 0; j < optimal_dim; j += 3) {
+            pixel *dst_place = j_dst_place - j * dim_reg;
+            pixel *src_place = j_src_place + j;
+            *(dst_place - dim_reg) = *(src_place);
+            *(dst_place - 2 * dim_reg) = *(src_place + 1);
+            *(dst_place - 3 * dim_reg) = *(src_place + 2);
+        }
+        for (j = optimal_dim; j < dim_reg; j++) {
+            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
+        }
+    }
+}
+
+
+char rotate_2_no_RIDX_descr_no_array[] = "rotate_2_no_RIDX_no_array";
+
+void rotate_2_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
+    register int i, j;
+
+    register int dim_reg = dim;
+    register int optimal_dim = dim_reg - dim_reg % 2;
+
+    for (i = 0; i < dim_reg; i++) {
+        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
+        pixel *j_src_place = src + i * dim_reg;
+        for (j = 0; j < optimal_dim; j += 2) {
+            pixel *dst_place = j_dst_place - j * dim_reg;
+            pixel *src_place = j_src_place + j;
+            *(dst_place - dim_reg) = *(src_place);
+            *(dst_place - 2 * dim_reg) = *(src_place + 1);
+        }
+        for (j = optimal_dim; j < dim_reg; j++) {
+            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
+        }
+    }
+}
+
+
+char rotate_1_no_RIDX_descr_no_array[] = "rotate_1_no_RIDX_no_array";
+
+void rotate_1_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
+    register int i, j;
+
+    register int dim_reg = dim;
+
+    for (i = 0; i < dim_reg; i++) {
+        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
+        pixel *j_src_place = src + i * dim_reg;
+        for (j = 0; j < dim_reg; j++) {
+            pixel *dst_place = j_dst_place - j * dim_reg;
+            pixel *src_place = j_src_place + j;
+            *(dst_place - dim_reg) = *(src_place);
+        }
+    }
+}
+
+/*
  * naive_rotate - The naive baseline version of rotate 
  */
 char naive_rotate_descr[] = "naive_rotate: Naive baseline implementation";
@@ -123,6 +298,13 @@ void register_rotate_functions() {
     add_rotate_function(&rotate3, rotate3_descr);
     add_rotate_function(&rotate7, rotate7_descr);
     add_rotate_function(&rotate_7_no_RIDX, rotate_7_no_RIDX_descr);
+    add_rotate_function(&rotate_7_no_RIDX_no_array, rotate_7_no_RIDX_descr_no_array);
+    add_rotate_function(&rotate_6_no_RIDX_no_array, rotate_6_no_RIDX_descr_no_array);
+    add_rotate_function(&rotate_5_no_RIDX_no_array, rotate_5_no_RIDX_descr_no_array);
+    add_rotate_function(&rotate_4_no_RIDX_no_array, rotate_4_no_RIDX_descr_no_array);
+    add_rotate_function(&rotate_3_no_RIDX_no_array, rotate_3_no_RIDX_descr_no_array);
+    add_rotate_function(&rotate_2_no_RIDX_no_array, rotate_2_no_RIDX_descr_no_array);
+    add_rotate_function(&rotate_1_no_RIDX_no_array, rotate_1_no_RIDX_descr_no_array);
     /* ... Register additional test functions here */
 }
 
