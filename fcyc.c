@@ -6,7 +6,7 @@
 #include "fcyc.h"
 
 #define K 3
-#define MAXSAMPLES 20
+#define MAXSAMPLES 1000
 #define EPSILON 0.01
 #define COMPENSATE 0
 #define CLEAR_CACHE 1

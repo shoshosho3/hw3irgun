@@ -8,7 +8,7 @@
  * Please fill in the following team struct 
  */
 team_t team = {
-        "בן הלמן ורננה שח""ק--------",              /* Team name */
+        "Ben Hellmann and Renana Shachak",              /* Team name */
 
         "Ben Hellmann",     /* First member full name */
         "ben.hellmann@campus.technion.ac.il",  /* First member email address */
@@ -24,243 +24,6 @@ team_t team = {
 /******************************************************
  * Your different versions of the rotate kernel go here
  ******************************************************/
-
-char rotate3_descr[] = "rotate3";
-
-void rotate3(int dim, pixel *src, pixel *dst) {
-    int i, j;
-
-    for (i = 0; i < dim; i++) {
-        for (j = 0; j < dim - dim % 3; j += 3) {
-            dst[RIDX(dim - 1 - j, i, dim)] = src[RIDX(i, j, dim)];
-            dst[RIDX(dim - 2 - j, i, dim)] = src[RIDX(i, j + 1, dim)];
-            dst[RIDX(dim - 3 - j, i, dim)] = src[RIDX(i, j + 2, dim)];
-        }
-        for (j = dim - dim % 3; j < dim; j++) {
-            dst[RIDX(dim - 1 - j, i, dim)] = src[RIDX(i, j, dim)];
-        }
-    }
-}
-
-char rotate7_descr[] = "rotate7";
-
-void rotate7(int dim, pixel *src, pixel *dst) {
-    int i, j;
-
-    register int dim_reg = dim;
-
-    for (i = 0; i < dim_reg; i++) {
-        for (j = 0; j < dim_reg - dim_reg % 7; j += 7) {
-            dst[RIDX(dim_reg - 1 - j, i, dim_reg)] = src[RIDX(i, j, dim_reg)];
-            dst[RIDX(dim_reg - 2 - j, i, dim_reg)] = src[RIDX(i, j + 1, dim_reg)];
-            dst[RIDX(dim_reg - 3 - j, i, dim_reg)] = src[RIDX(i, j + 2, dim_reg)];
-            dst[RIDX(dim_reg - 4 - j, i, dim_reg)] = src[RIDX(i, j + 3, dim_reg)];
-            dst[RIDX(dim_reg - 5 - j, i, dim_reg)] = src[RIDX(i, j + 4, dim_reg)];
-            dst[RIDX(dim_reg - 6 - j, i, dim_reg)] = src[RIDX(i, j + 5, dim_reg)];
-            dst[RIDX(dim_reg - 7 - j, i, dim_reg)] = src[RIDX(i, j + 6, dim_reg)];
-        }
-        for (j = dim_reg - dim_reg % 7; j < dim_reg; j++) {
-            dst[RIDX(dim_reg - 1 - j, i, dim_reg)] = src[RIDX(i, j, dim_reg)];
-        }
-    }
-}
-
-char rotate_7_no_RIDX_descr[] = "rotate_7_no_RIDX";
-
-void rotate_7_no_RIDX(int dim, pixel *src, pixel *dst) {
-    int i, j;
-
-    register int dim_reg = dim;
-
-    for (i = 0; i < dim_reg; i++) {
-        for (j = 0; j < dim_reg - dim_reg % 7; j += 7) {
-            dst[(dim_reg - 1 - j) * dim_reg + i] = src[i * dim_reg + j];
-            dst[(dim_reg - 2 - j) * dim_reg + i] = src[i * dim_reg + j + 1];
-            dst[(dim_reg - 3 - j) * dim_reg + i] = src[i * dim_reg + j + 2];
-            dst[(dim_reg - 4 - j) * dim_reg + i] = src[i * dim_reg + j + 3];
-            dst[(dim_reg - 5 - j) * dim_reg + i] = src[i * dim_reg + j + 4];
-            dst[(dim_reg - 6 - j) * dim_reg + i] = src[i * dim_reg + j + 5];
-            dst[(dim_reg - 7 - j) * dim_reg + i] = src[i * dim_reg + j + 6];
-        }
-        for (j = dim_reg - dim_reg % 7; j < dim_reg; j++) {
-            dst[(dim_reg - 1 - j) * dim_reg + i] = src[i * dim_reg + j];
-        }
-    }
-}
-
-
-char rotate_7_no_RIDX_descr_no_array[] = "rotate_7_no_RIDX_no_array";
-
-void rotate_7_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
-    register int i, j;
-
-    register int dim_reg = dim;
-    register int optimal_dim = dim_reg - dim_reg % 7;
-
-    for (i = 0; i < dim_reg; i++) {
-        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
-        pixel *j_src_place = src + i * dim_reg;
-        for (j = 0; j < optimal_dim; j += 7) {
-            pixel *dst_place = j_dst_place - j * dim_reg;
-            pixel *src_place = j_src_place + j;
-            *(dst_place - dim_reg) = *(src_place);
-            *(dst_place - 2 * dim_reg) = *(src_place + 1);
-            *(dst_place - 3 * dim_reg) = *(src_place + 2);
-            *(dst_place - 4 * dim_reg) = *(src_place + 3);
-            *(dst_place - 5 * dim_reg) = *(src_place + 4);
-            *(dst_place - 6 * dim_reg) = *(src_place + 5);
-            *(dst_place - 7 * dim_reg) = *(src_place + 6);
-        }
-        for (j = optimal_dim; j < dim_reg; j++) {
-            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
-        }
-    }
-}
-
-char rotate_6_no_RIDX_descr_no_array[] = "rotate_6_no_RIDX_no_array";
-
-void rotate_6_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
-    register int i, j;
-
-    register int dim_reg = dim;
-    register int optimal_dim = dim_reg - dim_reg % 6;
-
-    for (i = 0; i < dim_reg; i++) {
-        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
-        pixel *j_src_place = src + i * dim_reg;
-        for (j = 0; j < optimal_dim; j += 6) {
-            pixel *dst_place = j_dst_place - j * dim_reg;
-            pixel *src_place = j_src_place + j;
-            *(dst_place - dim_reg) = *(src_place);
-            *(dst_place - 2 * dim_reg) = *(src_place + 1);
-            *(dst_place - 3 * dim_reg) = *(src_place + 2);
-            *(dst_place - 4 * dim_reg) = *(src_place + 3);
-            *(dst_place - 5 * dim_reg) = *(src_place + 4);
-            *(dst_place - 6 * dim_reg) = *(src_place + 5);
-        }
-        for (j = optimal_dim; j < dim_reg; j++) {
-            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
-        }
-    }
-}
-
-char rotate_5_no_RIDX_descr_no_array[] = "rotate_5_no_RIDX_no_array";
-
-void rotate_5_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
-    register int i, j;
-
-    register int dim_reg = dim;
-    register int optimal_dim = dim_reg - dim_reg % 5;
-
-    for (i = 0; i < dim_reg; i++) {
-        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
-        pixel *j_src_place = src + i * dim_reg;
-        for (j = 0; j < optimal_dim; j += 5) {
-            pixel *dst_place = j_dst_place - j * dim_reg;
-            pixel *src_place = j_src_place + j;
-            *(dst_place - dim_reg) = *(src_place);
-            *(dst_place - 2 * dim_reg) = *(src_place + 1);
-            *(dst_place - 3 * dim_reg) = *(src_place + 2);
-            *(dst_place - 4 * dim_reg) = *(src_place + 3);
-            *(dst_place - 5 * dim_reg) = *(src_place + 4);
-        }
-        for (j = optimal_dim; j < dim_reg; j++) {
-            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
-        }
-    }
-}
-
-char rotate_4_no_RIDX_descr_no_array[] = "rotate_4_no_RIDX_no_array";
-
-void rotate_4_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
-    register int i, j;
-
-    register int dim_reg = dim;
-    register int optimal_dim = dim_reg - dim_reg % 4;
-
-    for (i = 0; i < dim_reg; i++) {
-        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
-        pixel *j_src_place = src + i * dim_reg;
-        for (j = 0; j < optimal_dim; j += 4) {
-            pixel *dst_place = j_dst_place - j * dim_reg;
-            pixel *src_place = j_src_place + j;
-            *(dst_place - dim_reg) = *(src_place);
-            *(dst_place - 2 * dim_reg) = *(src_place + 1);
-            *(dst_place - 3 * dim_reg) = *(src_place + 2);
-            *(dst_place - 4 * dim_reg) = *(src_place + 3);
-        }
-        for (j = optimal_dim; j < dim_reg; j++) {
-            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
-        }
-    }
-}
-
-char rotate_3_no_RIDX_descr_no_array[] = "rotate_3_no_RIDX_no_array";
-
-void rotate_3_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
-    register int i, j;
-
-    register int dim_reg = dim;
-    register int optimal_dim = dim_reg - dim_reg % 3;
-
-    for (i = 0; i < dim_reg; i++) {
-        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
-        pixel *j_src_place = src + i * dim_reg;
-        for (j = 0; j < optimal_dim; j += 3) {
-            pixel *dst_place = j_dst_place - j * dim_reg;
-            pixel *src_place = j_src_place + j;
-            *(dst_place - dim_reg) = *(src_place);
-            *(dst_place - 2 * dim_reg) = *(src_place + 1);
-            *(dst_place - 3 * dim_reg) = *(src_place + 2);
-        }
-        for (j = optimal_dim; j < dim_reg; j++) {
-            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
-        }
-    }
-}
-
-
-char rotate_2_no_RIDX_descr_no_array[] = "rotate_2_no_RIDX_no_array";
-
-void rotate_2_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
-    register int i, j;
-
-    register int dim_reg = dim;
-    register int optimal_dim = dim_reg - dim_reg % 2;
-
-    for (i = 0; i < dim_reg; i++) {
-        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
-        pixel *j_src_place = src + i * dim_reg;
-        for (j = 0; j < optimal_dim; j += 2) {
-            pixel *dst_place = j_dst_place - j * dim_reg;
-            pixel *src_place = j_src_place + j;
-            *(dst_place - dim_reg) = *(src_place);
-            *(dst_place - 2 * dim_reg) = *(src_place + 1);
-        }
-        for (j = optimal_dim; j < dim_reg; j++) {
-            *(dst + (dim_reg - 1 - j) * dim_reg + i) = *(src + i * dim_reg + j);
-        }
-    }
-}
-
-
-char rotate_1_no_RIDX_descr_no_array[] = "rotate_1_no_RIDX_no_array";
-
-void rotate_1_no_RIDX_no_array(int dim, pixel *src, pixel *dst) {
-    register int i, j;
-
-    register int dim_reg = dim;
-
-    for (i = 0; i < dim_reg; i++) {
-        pixel *j_dst_place = dst + i + dim_reg * dim_reg;
-        pixel *j_src_place = src + i * dim_reg;
-        for (j = 0; j < dim_reg; j++) {
-            pixel *dst_place = j_dst_place - j * dim_reg;
-            pixel *src_place = j_src_place + j;
-            *(dst_place - dim_reg) = *(src_place);
-        }
-    }
-}
 
 /*
  * naive_rotate - The naive baseline version of rotate 
@@ -279,10 +42,41 @@ void naive_rotate(int dim, pixel *src, pixel *dst) {
  * rotate - Your current working version of rotate
  * IMPORTANT: This is the version you will be graded on
  */
-char rotate_descr[] = "rotate: Current working version";
+char rotate_descr[] = "16 moves in each iteration, arrays in pointer registers, iteration indexes in registers"
+                      ", powers of 2 done with shifts, matrix sizes in registers";
 
 void rotate(int dim, pixel *src, pixel *dst) {
-    rotate3(dim, src, dst);
+    register int i, j;
+
+    register int dim_reg = dim;
+    register int size = dim_reg * dim_reg;
+    register pixel *dst_place;
+    register pixel *src_place;
+
+    for (i = 0; i < dim_reg; i++) {
+        pixel *j_dst_place = dst + i + size; //instead of writing this each time
+        pixel *j_src_place = src + i * dim_reg; //instead of writing this each time, fewer multiplications
+        for (j = 0; j < dim_reg; j += 16) {
+            dst_place = j_dst_place - j * dim_reg;
+            src_place = j_src_place + j;
+            *(dst_place - dim_reg) = *(src_place);
+            *(dst_place - (dim_reg << 1)) = *(src_place + 1);
+            *(dst_place - 3 * dim_reg) = *(src_place + 2);
+            *(dst_place - (dim_reg << 2)) = *(src_place + 3);
+            *(dst_place - 5 * dim_reg) = *(src_place + 4);
+            *(dst_place - 6 * dim_reg) = *(src_place + 5);
+            *(dst_place - 7 * dim_reg) = *(src_place + 6);
+            *(dst_place - (dim_reg << 3)) = *(src_place + 7);
+            *(dst_place - 9 * dim_reg) = *(src_place + 8);
+            *(dst_place - 10 * dim_reg) = *(src_place + 9);
+            *(dst_place - 11 * dim_reg) = *(src_place + 10);
+            *(dst_place - 12 * dim_reg) = *(src_place + 11);
+            *(dst_place - 13 * dim_reg) = *(src_place + 12);
+            *(dst_place - 14 * dim_reg) = *(src_place + 13);
+            *(dst_place - 15 * dim_reg) = *(src_place + 14);
+            *(dst_place - (dim_reg << 4)) = *(src_place + 15);
+        }
+    }
 }
 
 /*********************************************************************
@@ -294,17 +88,8 @@ void rotate(int dim, pixel *src, pixel *dst) {
  *********************************************************************/
 
 void register_rotate_functions() {
-    add_rotate_function(&naive_rotate, naive_rotate_descr);
-    add_rotate_function(&rotate3, rotate3_descr);
-    add_rotate_function(&rotate7, rotate7_descr);
-    add_rotate_function(&rotate_7_no_RIDX, rotate_7_no_RIDX_descr);
-    add_rotate_function(&rotate_7_no_RIDX_no_array, rotate_7_no_RIDX_descr_no_array);
-    add_rotate_function(&rotate_6_no_RIDX_no_array, rotate_6_no_RIDX_descr_no_array);
-    add_rotate_function(&rotate_5_no_RIDX_no_array, rotate_5_no_RIDX_descr_no_array);
-    add_rotate_function(&rotate_4_no_RIDX_no_array, rotate_4_no_RIDX_descr_no_array);
-    add_rotate_function(&rotate_3_no_RIDX_no_array, rotate_3_no_RIDX_descr_no_array);
-    add_rotate_function(&rotate_2_no_RIDX_no_array, rotate_2_no_RIDX_descr_no_array);
-    add_rotate_function(&rotate_1_no_RIDX_no_array, rotate_1_no_RIDX_descr_no_array);
+    add_rotate_function(rotate,rotate_descr);
+
     /* ... Register additional test functions here */
 }
 
